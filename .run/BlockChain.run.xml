@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BlockChain" type="CompoundRunConfigurationType">
+    <toRun name="start:client:1" type="js.build_tools.npm" />
+    <toRun name="start:client:unknown" type="js.build_tools.npm" />
+    <toRun name="start:server" type="js.build_tools.npm" />
+    <toRun name="start:client:2" type="js.build_tools.npm" />
+    <toRun name="start:client:3" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
