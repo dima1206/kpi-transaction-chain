@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      dockerfile: Dockerfile-server
+      context: .
+    ports:
+      - "3000:3000"
+    networks:
+      subnet:
+        ipv4_address: 192.168.11.21
+
+  client1:
+    build:
+      dockerfile: Dockerfile-client1
+      context: .
+    environment:
+      SERVER_HOST: http://server:3000
+    networks:
+      subnet:
+        ipv4_address: 192.168.11.22
+    depends_on:
+      - server
+
+  client2:
+    build:
+      dockerfile: Dockerfile-client2
+      context: .
+    environment:
+      SERVER_HOST: http://server:3000
+    networks:
+      subnet:
+        ipv4_address: 192.168.11.23
+    depends_on:
+      - server
+
+  client3:
+    build:
+      dockerfile: Dockerfile-client3
+      context: .
+    environment:
+      SERVER_HOST: http://server:3000
+    networks:
+      subnet:
+        ipv4_address: 192.168.11.24
+    depends_on:
+      - server
+
+  client-unknown:
+    build:
+      dockerfile: Dockerfile-unknown
+      context: .
+    environment:
+      SERVER_HOST: http://server:3000
+    networks:
+      subnet:
+        ipv4_address: 192.168.11.25
+    depends_on:
+      - server
+
+networks:
+  subnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.11.0/24
+          gateway: 192.168.11.1

@@ -7,7 +7,7 @@ import { io } from 'socket.io-client';
   providers: [
     {
       provide: Socket,
-      useValue: io('http://localhost:3000', {
+      useValue: io(process.env.SERVER_HOST || 'http://localhost:3000', {
         transports: ['websocket'],
         query: { secret: process.env.SECRET || 'UNKNOWN' },
       }),
