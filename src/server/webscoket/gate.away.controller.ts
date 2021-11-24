@@ -4,6 +4,13 @@ import { Socket } from 'socket.io-client/build/esm/socket';
 import { BlockChain } from '../blockchain/block.chain';
 import { Cron } from '@nestjs/schedule';
 import { Logger } from '@nestjs/common';
+import * as jsonwebtoken from 'jsonwebtoken';
+import * as fs from 'fs';
+import { retrieveSigningKeys } from 'jwks-rsa/src/utils';
+
+const keysData = fs.readFileSync(process.cwd() + '/keys.json');
+const keys = JSON.parse(keysData.toString());
+const SECRET_KEY = retrieveSigningKeys([keys['privateKey']])[0].getPublicKey();
 
 @WebSocketGateway({ transports: ['websocket'] })
 export class GateAwayController implements OnGatewayConnection {
@@ -64,8 +71,13 @@ export class GateAwayController implements OnGatewayConnection {
   }
 
   @SubscribeMessage('transaction-hash')
-  transactionHash(@MessageBody() data: { hash: string; iteration: string }, @ConnectedSocket() client: Socket | any) {
-    if (!this.secrets.has(client.secret)) {
+  async transactionHash(@MessageBody() data: { hash: string; iteration: string }, @ConnectedSocket() client: Socket | any) {
+    const isValid = new Promise((resolve) => {
+      jsonwebtoken.verify(client.secret, SECRET_KEY, { ignoreExpiration: true, algorithms: ['RS256'] }, (err) => {
+        return err ? resolve(false) : resolve(true);
+      });
+    });
+    if (!isValid) {
       return this.logger.warn('TRANSACTION WITH UNKNOWN SECRET', client.secret);
     }
     if (this.secretToIteration[client.secret] === this.iteration) {
