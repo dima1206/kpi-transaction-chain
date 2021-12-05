@@ -54,13 +54,13 @@ export class Transaction {
 
   static ofTemplate(iteration = 0, previousTransaction = '0') {
     const firstUser = {
-      name: 'random' + Math.random(),
-      balance: 1000000 * Math.random(),
+      name: 'SYSTEM',
+      balance: 0,
     };
     const secondUser = {
-      name: 'random' + Math.random(),
-      balance: 1000000 * Math.random(),
+      name: 'SYSTEM',
+      balance: 0,
     };
-    return Transaction.of(firstUser, secondUser, 100000 * Math.random(), iteration, previousTransaction);
+    return Transaction.of(firstUser, secondUser, 0, iteration, previousTransaction);
   }
 }

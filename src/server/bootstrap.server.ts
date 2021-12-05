@@ -13,6 +13,17 @@ import { GateAwayModule } from './webscoket/gate.away.module';
     //   entities: [],
     //   synchronize: true,
     // }),
+    {
+      global: true,
+      module: class Global {},
+      providers: [
+        {
+          provide: 'transactions',
+          useValue: [],
+        },
+      ],
+      exports: ['transactions'],
+    },
   ],
 })
 export class ServerBootstrap {}

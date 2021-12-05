@@ -9,10 +9,10 @@ const privateKey = rsaKey.toJWK(true);
 const keyToSign = jose.JWK.asKey(privateKey);
 const exp = new Date(10000000000000).getTime() / 1000;
 
-const pubKeyClient1 = jose.JWS.sign({ client: 1, exp: exp }, keyToSign, { kid: privateKey.kid });
-const pubKeyClient2 = jose.JWS.sign({ client: 2, exp: exp }, keyToSign, { kid: privateKey.kid });
-const pubKeyClient3 = jose.JWS.sign({ client: 3, exp: exp }, keyToSign, { kid: privateKey.kid });
-const pubKeyClient4 = jose.JWS.sign({ client: 3, exp: exp }, keyToSign, { kid: privateKey.kid });
+const pubKeyClient1 = jose.JWS.sign({ client: 1, exp: exp, id: 0 }, keyToSign, { kid: privateKey.kid });
+const pubKeyClient2 = jose.JWS.sign({ client: 2, exp: exp, id: 1 }, keyToSign, { kid: privateKey.kid });
+const pubKeyClient3 = jose.JWS.sign({ client: 3, exp: exp, id: 2 }, keyToSign, { kid: privateKey.kid });
+const pubKeyClient4 = jose.JWS.sign({ client: 3, exp: exp, id: 1 }, keyToSign, { kid: privateKey.kid });
 
 const payload = {
   1: pubKeyClient1,
