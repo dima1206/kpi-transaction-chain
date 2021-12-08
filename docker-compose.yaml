@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   server:
+    privileged: true
     build:
       dockerfile: Dockerfile-server
       context: .

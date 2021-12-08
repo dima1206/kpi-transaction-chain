@@ -1,12 +1,15 @@
-FROM node:12.22-bullseye
+FROM tensorflow/tensorflow
+
+RUN apt-get update && apt-get install -y nodejs
+RUN pip install numpy
+RUN apt install -y npm
 
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
-RUN apt-get update && apt-get install -y python3-pip
-RUN pip install numpy tensorflow
 
 COPY . .
 
+ENV PYTHONUNBUFFERED=1
 ENTRYPOINT npm run start:server

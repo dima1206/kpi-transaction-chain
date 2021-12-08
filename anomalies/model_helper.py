@@ -41,6 +41,6 @@ def preprocess_packet(parsed_packet):
 
 def is_anomaly(model, parsed_packet):
     x = preprocess_packet(parsed_packet)
-    guess = int(model(x)[0][0])
+    guess = model(x)[0][0]
     print(f'g:{guess}, l:{x.tolist()}')
     return guess > 0.5
