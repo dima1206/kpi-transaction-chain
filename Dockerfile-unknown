@@ -8,5 +8,4 @@ RUN npm install
 
 COPY . .
 
-# ENTRYPOINT npm run start:client:unknown
-ENTRYPOINT tail -F non-existing-file
+ENTRYPOINT npm run start:client:unknown

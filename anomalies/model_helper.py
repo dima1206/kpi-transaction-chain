@@ -36,11 +36,9 @@ def preprocess_packet(parsed_packet):
 
     x = list(parsed_packet[i] for i in range(len(parsed_packet)) if ATTR[i] not in DROP_COLUMNS)
     x.extend((is_local, is_src_3000, is_dst_3000, is_ack_0))
-    return np.array([x, ])
+    return np.array([x])
 
 
 def is_anomaly(model, parsed_packet):
     x = preprocess_packet(parsed_packet)
-    guess = model(x)[0][0]
-    print(f'g:{guess}, l:{x.tolist()}')
-    return guess > 0.5
+    return model(x)[0][0] > 0.5
