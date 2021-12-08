@@ -50,7 +50,7 @@ def collect_dataset(filename, anomaly_src_ip):
 
 def detect_anomalies():
     s = network.create_socket()
-    model = model_helper.load_model('trained_model_12.h5')
+    model = model_helper.load_model('/usr/src/app/anomalies/trained_model_12.h5')
     global continue_loop
     n_all, n_anomalies = 0, 0
     print()
