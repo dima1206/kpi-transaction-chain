@@ -15,6 +15,7 @@ ATTR = ["version", "ip_length", "ttl", "protocol", "source_ip", "destination_ip"
         "data_size",
         "is_anomaly"]
 SOURCE_IP_INDEX = 4
+ATTR_INDICES = dict((ATTR[i], i) for i in range(len(ATTR)))
 
 
 def parse_pkt(pkt):

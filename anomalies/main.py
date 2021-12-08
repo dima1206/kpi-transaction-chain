@@ -3,6 +3,8 @@ import os
 import threading
 
 import network
+import model_helper
+
 
 continue_loop = True
 
@@ -46,6 +48,21 @@ def collect_dataset(filename, anomaly_src_ip):
         print(f'\033[F{collected} packets collected')
 
 
+def detect_anomalies():
+    s = network.create_socket()
+    model = model_helper.load_model('trained_model_12.h5')
+    global continue_loop
+    n_all, n_anomalies = 0, 0
+    print()
+    while continue_loop:
+        pkt = network.sniff_one_pkt(s)
+        pkt = network.parse_pkt(pkt)
+        n_all += 1
+        n_anomalies += int(model_helper.is_anomaly(model, pkt))
+        # print(f'\033[F{n_all} packets found, {n_anomalies} anomalies detected')
+        print(f'{n_all} packets found, {n_anomalies} anomalies detected')
+
+
 def parse_args():
     if len(sys.argv) < 2:
         print('You need to specify subcommand (print, collect <filename> <anomaly source ip>, detect)')
@@ -63,8 +80,7 @@ def parse_args():
         collect_dataset(filename, anomaly_src_ip)
 
     elif sys.argv[1] == 'detect':
-        print('This subcommand isn\'t implemented yet')
-        sys.exit()
+        detect_anomalies()
 
     else:
         print('Unknown subcommand ' + sys.argv[1])
@@ -76,4 +92,3 @@ if __name__ == "__main__":
     input_thread = threading.Thread(target=get_input)
     parse_thread.start()
     input_thread.start()
-
