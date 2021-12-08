@@ -11,7 +11,7 @@ continue_loop = True
 
 def get_input():
     global continue_loop
-    input('Press any key to exit\n')
+    input('Press Enter to exit\n')
     continue_loop = False
 
 
@@ -50,7 +50,7 @@ def collect_dataset(filename, anomaly_src_ip):
 
 def detect_anomalies():
     s = network.create_socket()
-    model = model_helper.load_model('/usr/src/app/anomalies/trained_model_12.h5')
+    model = model_helper.load_model('/usr/src/app/anomalies/trained_model.h5')
     global continue_loop
     n_all, n_anomalies = 0, 0
     print()
@@ -59,8 +59,7 @@ def detect_anomalies():
         pkt = network.parse_pkt(pkt)
         n_all += 1
         n_anomalies += int(model_helper.is_anomaly(model, pkt))
-        # print(f'\033[F{n_all} packets found, {n_anomalies} anomalies detected')
-        print(f'{n_all} packets found, {n_anomalies} anomalies detected')
+        print(f'\033[F{n_all} packets found, {n_anomalies} anomalies detected')
 
 
 def parse_args():
