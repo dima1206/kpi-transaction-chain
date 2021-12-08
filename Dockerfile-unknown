@@ -1,9 +1,12 @@
 FROM node:12.13-alpine
 
+RUN apk add --update --no-cache nmap samba-client
+
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
-ENTRYPOINT npm run start:client:unknown
+# ENTRYPOINT npm run start:client:unknown
+ENTRYPOINT tail -F non-existing-file
