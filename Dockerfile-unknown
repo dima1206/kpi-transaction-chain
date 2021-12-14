@@ -1,6 +1,7 @@
 FROM node:12.13-alpine
 
 RUN apk add --update --no-cache nmap samba-client
+RUN apk add hping3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 WORKDIR /usr/src/app
 COPY package*.json ./
