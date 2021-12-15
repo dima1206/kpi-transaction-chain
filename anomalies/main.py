@@ -50,7 +50,10 @@ def collect_dataset(filename, anomaly_src_ip):
 
 def detect_anomalies():
     s = network.create_socket()
-    model = model_helper.load_model('/usr/src/app/anomalies/trained_model.h5')
+    if len(sys.argv) > 2 and (sys.argv[2] == 'gen' or sys.argv[2] == 'genetic'):
+        model = model_helper.load_model('/usr/src/app/anomalies/trained_model_genetic.h5')
+    else:
+        model = model_helper.load_model('/usr/src/app/anomalies/trained_model.h5')
     global continue_loop
     n_all, n_anomalies = 0, 0
     print()
